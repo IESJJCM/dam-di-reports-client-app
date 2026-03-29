@@ -1,12 +1,11 @@
-
 function App() {
   return (
-    <>
-      <h1 className="text-3xl font-bold underline">
-        Hello world!
-      </h1>
-    </>
-  )
+    <div className="app-layout">
+      <div>Sidebar</div>
+
+      <div>Main Content</div>
+    </div>
+  );
 }
 
 export default App;
