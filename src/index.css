@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+
 @layer base {
   :root {
     --primary: #6366f1;
@@ -9,7 +10,7 @@
     --text-main: #f8fafc;
     --text-muted: #94a3b8;
     --accent: #38bdf8;
-    --sidebar-width: 300px;
+    --sidebar-width: 250px;
 
     color-scheme: dark;
     color: var(--text-main);
