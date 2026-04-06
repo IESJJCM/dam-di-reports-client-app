@@ -1,12 +1,18 @@
+import { Main, Sidebar } from './components';
+import { useReports } from './hooks/useReports';
 
 function App() {
+
+  const { reports } = useReports();
+  console.log(reports);
+
   return (
-    <>
-      <h1 className="text-3xl font-bold underline">
-        Hello world!
-      </h1>
-    </>
-  )
+    <div className="app-layout">
+      <Sidebar />
+
+      <Main />
+    </div>
+  );
 }
 
 export default App;
