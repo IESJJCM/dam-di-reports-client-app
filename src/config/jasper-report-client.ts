@@ -1,7 +1,8 @@
 import axios from 'axios';
 
-const USER = import.meta.env.JASPER_REPORTS_SERVER_USER;
-const PASSWORD = import.meta.env.JASPER_REPORTS_SERVER_PASSWORD;
+const USER = import.meta.env.VITE_JASPER_REPORTS_SERVER_USER;
+const PASSWORD = import.meta.env.VITE_JASPER_REPORTS_SERVER_PASSWORD;
+
 /**
  * Axios instance to make requests to the Jasper Reports server
  */
