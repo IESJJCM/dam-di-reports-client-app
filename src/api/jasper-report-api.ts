@@ -1,4 +1,5 @@
 import httpClient from '../config/jasper-report-client';
+import type { Report } from '../types/jasper-reports.types';
 
 /**
    * Login to the JasperReports server
@@ -24,13 +25,13 @@ export const login = async () => {
  * @returns List of reports
  */
 export const getReports = async (): Promise<Report[]> => {
-  return (await httpClient.get('/resources?type=reportUnit&recursive=true', {
+  const { data } = await httpClient.get('/resources?type=reportUnit&recursive=true', {
     headers: {
       Accept: 'application/json',
     },
-  })).data.resourceLookup;
-}
-
+  });
+  return data.resourceLookup ?? [];
+};
 
 /**
  * Execute a report and get the blob URL
