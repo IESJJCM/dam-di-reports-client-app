@@ -10,6 +10,7 @@ export const useReports = () => {
   useEffect(() => {
     let cancelled = false;
     setLoading(true);
+
     getReports()
       .then((data) => {
         !cancelled && setReports(data);
