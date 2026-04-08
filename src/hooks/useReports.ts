@@ -1,16 +1,35 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getReports } from '../api/jasper-report-api';
+import type { Report } from '../types/jasper-reports.types';
 
 export const useReports = () => {
+  const [reports, setReports]                         = useState<Report[]>([]);
+  const [loadingReports, setLoadingReports]           = useState(false);
+  const [errorLoadingReports, setErrorLoadingReports] = useState<string | null>(null);
 
-  const [reports, setReports] = useState([]);
-  
   useEffect(() => {
+    let cancelled = false;
+    setLoadingReports(true);
+
     getReports()
-      .then(data => { setReports(data as any);}).catch(e => console.log(e));
+      .then((data) => {
+        !cancelled && setReports(data);
+      })
+      .catch((e) => {
+        !cancelled && setErrorLoadingReports(e.message);
+      })
+      .finally(() => {
+        !cancelled && setLoadingReports(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  return {  
+  return {
     reports,
+    loadingReports,
+    errorLoadingReports
   };
-}
+};
