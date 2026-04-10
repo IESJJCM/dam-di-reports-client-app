@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { getReport, getReports } from '../api/jasper-report-api';
+import { getReportUrl, getReports } from '../api/jasper-report-api';
 import type { Report } from '../types/jasper-reports.types';
 
 /**
@@ -69,7 +69,7 @@ export const useReports = () => {
       setErrorLoadingReport(null);
 
       try {
-        const url = await getReport(selectedReport.uri);
+        const url = await getReportUrl(selectedReport.uri);
         setReportUrl((prev) => {
           if (prev) URL.revokeObjectURL(prev);
           return url;
@@ -92,12 +92,12 @@ export const useReports = () => {
     reportUrl,
     loadingReport,
     errorLoadingReport,
-    
+
     selectedReport,
     // Functions
     /** Updates the selected report (will trigger execution via the effect). */
     setSelectedReport,
     /** Manually (re)execute the currently selected report. */
-    load,
+    reload: load,
   };
 };

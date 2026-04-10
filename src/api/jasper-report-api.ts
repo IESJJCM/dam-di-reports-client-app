@@ -40,7 +40,7 @@ export const getReports = async (): Promise<Report[]> => {
  * @param params Report parameters
  * @returns Blob URL of the executed report
  */
-export const getReport = async (
+export const getReportUrl = async (
   reportPath: string, 
   format = 'pdf', 
   params?: Record<string, any>
