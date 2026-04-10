@@ -27,6 +27,31 @@ export const useReports = () => {
   /** `blob:` URL for the last successfully executed report. */
   const [reportUrl, setReportUrl] = useState<string | null>(null);
 
+  /**
+   * Executes the currently selected report and updates `reportUrl`.
+   *
+   * Note: `getReport()` returns a freshly-created `blob:` URL. We revoke the previous one
+   * before storing the new URL to prevent accumulating unreleased blob URLs in memory.
+   */
+  const load = useCallback(async () => {
+    if (selectedReport) {
+      setLoadingReport(true);
+      setErrorLoadingReport(null);
+
+      try {
+        const url = await getReportUrl(selectedReport.uri);
+        setReportUrl((prev) => {
+          if (prev) URL.revokeObjectURL(prev);
+          return url;
+        });
+      } catch (e: any) {
+        setErrorLoadingReport(e?.message ?? String(e));
+      } finally {
+        setLoadingReport(false);
+      }
+    }
+  }, [selectedReport]);
+
   /*
   Fetch report list once on mount.
   */
@@ -55,32 +80,7 @@ export const useReports = () => {
   */
   useEffect(() => {
     void load();
-  }, [selectedReport]);
-
-  /**
-   * Executes the currently selected report and updates `reportUrl`.
-   *
-   * Note: `getReport()` returns a freshly-created `blob:` URL. We revoke the previous one
-   * before storing the new URL to prevent accumulating unreleased blob URLs in memory.
-   */
-  const load = useCallback(async () => {
-    if (selectedReport) {
-      setLoadingReport(true);
-      setErrorLoadingReport(null);
-
-      try {
-        const url = await getReportUrl(selectedReport.uri);
-        setReportUrl((prev) => {
-          if (prev) URL.revokeObjectURL(prev);
-          return url;
-        });
-      } catch (e: any) {
-        setErrorLoadingReport(e?.message ?? String(e));
-      } finally {
-        setLoadingReport(false);
-      }
-    }
-  }, [selectedReport]);
+  }, [load]);
 
 
   return {
@@ -97,7 +97,8 @@ export const useReports = () => {
     // Functions
     /** Updates the selected report (will trigger execution via the effect). */
     setSelectedReport,
-    /** Manually (re)execute the currently selected report. */
+
+    /** Alias for `load()` (re-execute selected report). */
     reload: load,
   };
 };

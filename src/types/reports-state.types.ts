@@ -15,4 +15,5 @@ export interface ReportsState {
   // Functions
   setSelectedReport: (report: Report) => void;
   load: () => Promise<void>;
+  reload: () => Promise<void>;
 }
