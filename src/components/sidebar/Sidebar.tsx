@@ -3,7 +3,7 @@ import { ChevronRight, FileText, Loader2 } from 'lucide-react';
 import { ReportsContext } from '../../context/reports.context';
 
 export const Sidebar = () => {
-  const { reports, loadingReports } = useContext(ReportsContext);
+  const { reports, loadingReports, setSelectedReport } = useContext(ReportsContext);
 
 
   return (
@@ -28,12 +28,16 @@ export const Sidebar = () => {
               </li>
             ) : (
               reports.map((report) => (
-                <li key={report.uri} className="cursor-pointer p-2 hover:bg-white/10 flex justify-between items-center">
+                <li key={report.uri} 
+                  className="cursor-pointer p-2 hover:bg-white/10 flex justify-between items-center" 
+                  onClick={() => setSelectedReport(report)} >
+
                   <div className="flex flex-col gap-0.5">
                     <span className="truncate font-medium">{report.label}</span>
                     <span className="truncate text-xs text-muted">{report.description}</span>
                   </div>
                   <ChevronRight size={16} className="text-(--text-muted)" />
+                  
                 </li>
               ))
             )

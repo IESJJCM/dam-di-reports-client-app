@@ -40,7 +40,11 @@ export const getReports = async (): Promise<Report[]> => {
  * @param params Report parameters
  * @returns Blob URL of the executed report
  */
-export const getReportExecution = async (reportPath: string, format = 'pdf', params?: Record<string, any>) => {
+export const getReport = async (
+  reportPath: string, 
+  format = 'pdf', 
+  params?: Record<string, any>
+): Promise<string> => {
   const response = await httpClient.get(`/reports${reportPath}.${format}`, {
     responseType: 'blob',
     params: params
